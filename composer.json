@@ -1,0 +1,10 @@
+{
+    "name": "webcommander/webcommander",
+    "description": "PHP SDK for the WebCommander REST API.",
+    "type": "library",
+    "keywords": ["webcommander", "sdk", "api-client"],
+    "license": "proprietary",
+    "require": {
+        "php": ">=8.1"
+    }
+}
