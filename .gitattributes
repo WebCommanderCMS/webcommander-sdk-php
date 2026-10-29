@@ -1,0 +1,26 @@
+# Paths stripped from the archive Composer downloads; only src/ and the public
+# top-level files ship.
+#
+# export-ignore applies to `git archive`, so it filters tracked files only.
+# `composer archive` packages the working directory; untracked files there (.env,
+# vendor/, logs, test reports) are kept out by the `archive.exclude` allowlist in
+# composer.json, which excludes everything and puts back src/, composer.json,
+# LICENSE and README.md.
+#
+# A new internal tracked file gets a line below. A new public top-level file gets
+# a `!` entry in composer.json instead.
+#
+# A path repository symlinks the clone, so neither filter applies to it.
+
+/tests            export-ignore
+/phpunit.xml.dist export-ignore
+/.env.example     export-ignore
+/.gitattributes   export-ignore
+/.gitignore       export-ignore
+/composer.lock    export-ignore
+/DEVELOPMENT.md   export-ignore
+/CHANGELOG.md     export-ignore
+/ENDPOINTS.md     export-ignore
+
+# Normalise line endings so the same bytes ship from any platform.
+* text=auto eol=lf
