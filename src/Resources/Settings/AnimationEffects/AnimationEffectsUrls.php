@@ -8,6 +8,7 @@ final class AnimationEffectsUrls
 {
     public const ANIMATION_EFFECTS = '/api/{api_version}/admin/settings/animation_effects';
     public const ANIMATION_EFFECTS_SECTION = '/api/{api_version}/admin/settings/animation_effects/{section}';
+    public const ANIMATION_EFFECTS_CUSTOM_LOADER = '/api/{api_version}/admin/settings/animation_effects/custom_loader';
 
     /** The five values `{section}` takes, in the order the facade sends them; all five are writable.
      *  @var list<string> */

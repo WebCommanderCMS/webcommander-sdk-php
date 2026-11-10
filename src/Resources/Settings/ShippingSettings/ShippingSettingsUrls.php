@@ -6,5 +6,5 @@ namespace WebCommander\Resources\Settings\ShippingSettings;
 
 final class ShippingSettingsUrls
 {
-    public const SHIPPING_SETTINGS = '/api/{api_version}/admin/settings/shipping_settings';
+    public const SHIPPING_SETTINGS = '/api/{api_version}/admin/settings/shipping_settings/general';
 }

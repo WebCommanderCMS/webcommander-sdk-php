@@ -6,5 +6,5 @@ namespace WebCommander\Resources\TaxSettings;
 
 final class TaxSettingsUrls
 {
-    public const TAX_SETTINGS = '/api/{api_version}/admin/tax/settings';
+    public const TAX_SETTINGS = '/api/{api_version}/admin/settings/tax';
 }

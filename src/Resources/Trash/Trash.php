@@ -9,6 +9,7 @@ use WebCommander\Client\Dto;
 use WebCommander\Client\WebCommanderClient;
 use WebCommander\Resources\Trash\TrashDto\TrashBulkDeleteResult;
 use WebCommander\Resources\Trash\TrashDto\TrashBulkRestoreResult;
+use WebCommander\Resources\Trash\TrashDto\TrashExternalLinks;
 use WebCommander\Resources\Trash\TrashDto\TrashItem;
 use WebCommander\Resources\Trash\TrashDto\TrashPage;
 use WebCommander\Resources\Trash\TrashDto\TrashTypeList;
@@ -76,5 +77,13 @@ final class Trash
     public static function bulkDeleteTrash(WebCommanderClient $client, array|string|Dto $payload, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendPostRequest(TrashUrls::TRASH_BULK_DELETE, jsonBody: $payload, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TrashBulkDeleteResult::class);
+    }
+
+    /** The links outside the store that a permanent delete of a trashed item would break -
+     *  `GET /admin/trash/{trash_type}/{trash_item_id}/external_links`; `404` for an item that is not in
+     *  the trash. */
+    public static function getTrashItemExternalLinks(WebCommanderClient $client, string $trashType, int|string $trashItemId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    {
+        return $client->sendGetRequest(TrashUrls::TRASH_ITEM_EXTERNAL_LINKS, pathParams: ['trash_type' => $trashType, 'trash_item_id' => $trashItemId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TrashExternalLinks::class);
     }
 }

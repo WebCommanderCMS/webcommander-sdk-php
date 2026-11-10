@@ -14,12 +14,12 @@ final class ShippingSettings extends Dto
 
     public function __construct(
         public readonly ?ProfileReference $defaultShippingProfile = null,
-        public readonly ?bool $enableShippingDefaultTax = null,
+        public readonly ?bool $applyStoreTaxSettingsToShipping = null,
         public readonly ?ProfileReference $defaultDeliveryProfile = null,
-        public readonly ?bool $enableDeliveryDefaultTax = null,
+        public readonly ?bool $applyStoreTaxSettingsToDelivery = null,
         public readonly ?ProfileReference $shippingTaxProfile = null,
         public readonly ?bool $enableShippingClass = null,
-        public readonly ?bool $enableFlatViewClass = null,
+        public readonly ?bool $enableClassInFlatView = null,
         public readonly ?GroupMeta $groupMeta = null,
         public readonly mixed $fieldMetadata = null,
     ) {

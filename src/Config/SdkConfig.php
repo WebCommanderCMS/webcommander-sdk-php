@@ -440,7 +440,7 @@ final class SdkConfig
                 // An unreadable install record falls back to the source version below.
             }
         }
-        return '4.0.0';
+        return '4.0.1';
     }
 
     public function __toString(): string

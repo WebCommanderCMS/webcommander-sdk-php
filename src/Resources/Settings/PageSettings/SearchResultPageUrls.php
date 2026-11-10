@@ -7,6 +7,7 @@ namespace WebCommander\Resources\Settings\PageSettings;
 final class SearchResultPageUrls
 {
     public const SEARCH_RESULT_PAGE = '/api/{api_version}/admin/settings/page_settings/search_result_page';
+    public const SEARCH_REINDEX = '/api/{api_version}/admin/search/reindex';
     public const SEARCH_RESULT_PAGE_SECTION = '/api/{api_version}/admin/settings/page_settings/search_result_page/{section}';
     public const SEARCH_RESULT_PAGE_PRODUCT_PROMOTIONS = '/api/{api_version}/admin/settings/page_settings/search_result_page/product_promotion';
     public const SEARCH_RESULT_PAGE_PRODUCT_PROMOTION = '/api/{api_version}/admin/settings/page_settings/search_result_page/product_promotion/{promotion_id}';

@@ -9,9 +9,11 @@ use WebCommander\Client\WireName;
 
 /** One review. `product_id`, `comment` and `created_at` repeat `productId`, `review` and `date`;
  *  `created_at` carries a `Z`. `$productIdSnake` reads `product_id`, `$productId` the camelCase
- *  `productId`. */
+ *  `productId`. A single review answers under `review`, which inside a row is its text. */
 final class ProductReview extends Dto
 {
+    public const ENVELOPE_KEY = 'review';
+
     /** @param list<mixed>|null $files */
     public function __construct(
         public readonly ?int $id = null,

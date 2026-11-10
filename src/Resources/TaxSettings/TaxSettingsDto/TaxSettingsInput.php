@@ -6,21 +6,20 @@ namespace WebCommander\Resources\TaxSettings\TaxSettingsDto;
 
 use WebCommander\Client\Dto;
 
-/** The `PUT` body, wrapped in `settings` rather than `tax_settings`; a merge. */
+/** The body `PUT` and `PATCH` take, wrapped in `tax_settings`; both merge. The profile is written as `custom_tax_profile_id`; `calculated_by` is read-only. */
 final class TaxSettingsInput extends Dto
 {
-    public const ENVELOPE_KEY = 'settings';
+    public const ENVELOPE_KEY = 'tax_settings';
 
     public function __construct(
-        public readonly ?string $configurationType = null,
-        public readonly ?bool $systemDefaultTax = null,
-        public readonly ?string $defaultCountry = null,
+        public readonly ?string $taxRateForCustomers = null,
+        public readonly ?TaxRegionInput $taxRegion = null,
         public readonly ?int $customTaxProfileId = null,
-        public readonly ?int $defaultTaxProfile = null,
-        public readonly ?bool $showPriceWithTax = null,
-        public readonly ?bool $isPriceWithTax = null,
-        public readonly ?string $defaultTaxCode = null,
+        public readonly ?bool $isPriceShownWithTax = null,
+        public readonly ?string $pricesInCatalog = null,
+        public readonly ?bool $isOutOfRegionTaxFree = null,
         public readonly ?string $taxMessage = null,
+        public readonly ?string $basePriceRounding = null,
     ) {
     }
 }

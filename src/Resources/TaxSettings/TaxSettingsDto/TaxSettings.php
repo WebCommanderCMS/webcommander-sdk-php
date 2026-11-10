@@ -6,21 +6,23 @@ namespace WebCommander\Resources\TaxSettings\TaxSettingsDto;
 
 use WebCommander\Client\Dto;
 
-/** The facade's nine flat keys; `$defaultTaxProfile` follows the `tax_profile` row holding `default`. */
+/** The nine keys under `tax_settings`, with `group_meta` and, when asked for, `field_metadata`. */
 final class TaxSettings extends Dto
 {
     public const ENVELOPE_KEY = 'tax_settings';
 
     public function __construct(
-        public readonly ?string $configurationType = null,
-        public readonly ?bool $systemDefaultTax = null,
-        public readonly ?string $defaultCountry = null,
-        public readonly ?int $customTaxProfileId = null,
-        public readonly ?int $defaultTaxProfile = null,
-        public readonly ?bool $showPriceWithTax = null,
-        public readonly ?bool $isPriceWithTax = null,
-        public readonly ?string $defaultTaxCode = null,
+        public readonly ?string $taxRateForCustomers = null,
+        public readonly ?TaxRegion $taxRegion = null,
+        public readonly ?TaxProfileReference $customTaxProfile = null,
+        public readonly ?bool $isPriceShownWithTax = null,
+        public readonly ?string $pricesInCatalog = null,
+        public readonly ?string $calculatedBy = null,
+        public readonly ?bool $isOutOfRegionTaxFree = null,
         public readonly ?string $taxMessage = null,
+        public readonly ?string $basePriceRounding = null,
+        public readonly ?TaxSettingsGroupMeta $groupMeta = null,
+        public readonly mixed $fieldMetadata = null,
     ) {
     }
 }

@@ -9,6 +9,7 @@ use WebCommander\Client\Dto;
 use WebCommander\Client\WebCommanderClient;
 use WebCommander\Resources\Customers\AdminCustomersDto\Page;
 use WebCommander\Resources\Settings\PageSettings\SearchResultPageDto\ProductPromotion;
+use WebCommander\Resources\Settings\PageSettings\SearchResultPageDto\SearchReindex;
 use WebCommander\Resources\Settings\PageSettings\SearchResultPageDto\SearchResultPage as SearchResultPageBody;
 
 /** Search result page settings: a facade over three sections and the `product_promotion` collection,
@@ -113,5 +114,12 @@ final class SearchResultPage
     public static function deleteSearchResultPageProductPromotion(WebCommanderClient $client, int|string $promotionId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendDeleteRequest(SearchResultPageUrls::SEARCH_RESULT_PAGE_PRODUCT_PROMOTION, pathParams: ['promotion_id' => $promotionId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
+    }
+
+    /** Rebuild the store's search index - `POST /admin/search/reindex`; `202` once it has started, with
+     *  no body to send. */
+    public static function reindexSearch(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    {
+        return $client->sendPostRequest(SearchResultPageUrls::SEARCH_REINDEX, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: SearchReindex::class);
     }
 }

@@ -17,11 +17,18 @@ use WebCommander\Resources\Countries\Countries;
 use WebCommander\Resources\Currencies\Currencies;
 use WebCommander\Resources\CustomerGroups\CustomerGroups;
 use WebCommander\Resources\Customers\AdminCustomers;
+use WebCommander\Resources\DashboardBanners\DashboardBanners;
+use WebCommander\Resources\DashboardKpis\DashboardKpis;
+use WebCommander\Resources\DashboardReports\DashboardReports;
+use WebCommander\Resources\DashboardSections\DashboardSections;
+use WebCommander\Resources\Dashboards\Dashboards;
 use WebCommander\Resources\DiscountProfiles\DiscountProfiles;
 use WebCommander\Resources\Email\Email;
+use WebCommander\Resources\GiftCards\GiftCards;
 use WebCommander\Resources\InventoryLocations\InventoryLocations;
 use WebCommander\Resources\OrderCustomFields\OrderCustomFields;
 use WebCommander\Resources\OrderFlags\OrderFlags;
+use WebCommander\Resources\OrderPreviews\OrderPreviews;
 use WebCommander\Resources\Orders\Orders;
 use WebCommander\Resources\Pages\Pages;
 use WebCommander\Resources\PaymentGateways\PaymentGateways;
@@ -42,6 +49,9 @@ use WebCommander\Resources\Settings\ShippingSettings\ShippingSettings;
 use WebCommander\Resources\Settings\SiteSettings\SiteSettings;
 use WebCommander\Resources\ShippingClasses\ShippingClasses;
 use WebCommander\Resources\ShippingMethods\ShippingMethods;
+use WebCommander\Resources\ShippingProfiles\ShippingProfiles;
+use WebCommander\Resources\ShippingRates\ShippingRates;
+use WebCommander\Resources\ShippingRules\ShippingRules;
 use WebCommander\Resources\TaxCodes\TaxCodes;
 use WebCommander\Resources\TaxCountryTaxes\TaxCountryTaxes;
 use WebCommander\Resources\TaxCustomProfiles\TaxCustomProfiles;
@@ -73,12 +83,19 @@ final class ResourceRegistry
         'currencies' => Currencies::class,
         'customerGroups' => CustomerGroups::class,
         'customerPortal' => CustomerPortal::class,
+        'dashboardBanners' => DashboardBanners::class,
+        'dashboardKpis' => DashboardKpis::class,
+        'dashboardReports' => DashboardReports::class,
+        'dashboardSections' => DashboardSections::class,
+        'dashboards' => Dashboards::class,
         'discountProfiles' => DiscountProfiles::class,
         'ecommerceSettings' => EcommerceSettings::class,
         'email' => Email::class,
+        'giftCards' => GiftCards::class,
         'inventoryLocations' => InventoryLocations::class,
         'orderCustomFields' => OrderCustomFields::class,
         'orderFlags' => OrderFlags::class,
+        'orderPreviews' => OrderPreviews::class,
         'orders' => Orders::class,
         'pages' => Pages::class,
         'paymentGateways' => PaymentGateways::class,
@@ -91,6 +108,9 @@ final class ResourceRegistry
         'seoConfiguration' => SeoConfiguration::class,
         'shippingClasses' => ShippingClasses::class,
         'shippingMethods' => ShippingMethods::class,
+        'shippingProfiles' => ShippingProfiles::class,
+        'shippingRates' => ShippingRates::class,
+        'shippingRules' => ShippingRules::class,
         'shippingSettings' => ShippingSettings::class,
         'shoppingCart' => ShoppingCart::class,
         'siteSettings' => SiteSettings::class,

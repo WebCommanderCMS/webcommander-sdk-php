@@ -7,6 +7,8 @@ namespace WebCommander\Resources\Variations;
 use WebCommander\Client\ApiResponse;
 use WebCommander\Client\Dto;
 use WebCommander\Client\WebCommanderClient;
+use WebCommander\Resources\Variations\VariationsDto\ProductVariantDetail;
+use WebCommander\Resources\Variations\VariationsDto\ProductVariantPatchResult;
 use WebCommander\Resources\Variations\VariationsDto\ProductVariations;
 use WebCommander\Resources\Variations\VariationsDto\ProductVariationsBulkResult;
 use WebCommander\Resources\Variations\VariationsDto\ProductVariationsImportResult;
@@ -106,5 +108,35 @@ final class Variations
     public static function updateProductVariations(WebCommanderClient $client, int|string $productId, array|string|Dto $payload, ?array $queryParams = null, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendPatchRequest(VariationsUrls::PRODUCT_VARIATIONS_BULK, pathParams: ['product_id' => $productId], queryParams: $queryParams, jsonBody: $payload, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: ProductVariationsBulkResult::class);
+    }
+
+    /** Read one variant under `variation` - `GET /admin/products/{product_id}/variations/{variation_id}`.
+     *  `variation_id` is a variant's `variation_id`, the `id` the list also carries; it is not the
+     *  variant's own `product_id`. It reads `active` where the list reads `available`. */
+    public static function getProductVariation(WebCommanderClient $client, int|string $productId, int|string $variationId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    {
+        return $client->sendGetRequest(VariationsUrls::PRODUCT_VARIATION, pathParams: ['product_id' => $productId, 'variation_id' => $variationId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: ProductVariantDetail::class);
+    }
+
+    /** Delete one variant - `DELETE /admin/products/{product_id}/variations/{variation_id}`, `204`; a
+     *  second delete is `404`. `variation_id` is a variant's `variation_id`. */
+    public static function deleteProductVariation(WebCommanderClient $client, int|string $productId, int|string $variationId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    {
+        return $client->sendDeleteRequest(VariationsUrls::PRODUCT_VARIATION, pathParams: ['product_id' => $productId, 'variation_id' => $variationId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
+    }
+
+    /** Change one variant - `PATCH /admin/products/{product_id}/variations/{variation_id}`; a bare,
+     *  partial body. A SKU another variant holds is `409`.
+     *  @param array<string,mixed>|string|Dto $payload */
+    public static function patchProductVariation(WebCommanderClient $client, int|string $productId, int|string $variationId, array|string|Dto $payload, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    {
+        return $client->sendPatchRequest(VariationsUrls::PRODUCT_VARIATION, pathParams: ['product_id' => $productId, 'variation_id' => $variationId], jsonBody: $payload, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: ProductVariantPatchResult::class);
+    }
+
+    /** Delete every variant of a product - `DELETE /admin/products/{product_id}/variations`, `204`, also
+     *  when it has none. */
+    public static function deleteProductVariations(WebCommanderClient $client, int|string $productId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    {
+        return $client->sendDeleteRequest(VariationsUrls::PRODUCT_VARIATIONS, pathParams: ['product_id' => $productId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
     }
 }

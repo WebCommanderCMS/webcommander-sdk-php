@@ -39,12 +39,19 @@ use WebCommander\Redaction;
  *  @property-read BoundResource $currencies see Currencies
  *  @property-read BoundResource $customerGroups see CustomerGroups
  *  @property-read BoundResource $customerPortal see CustomerPortal
+ *  @property-read BoundResource $dashboardBanners see DashboardBanners
+ *  @property-read BoundResource $dashboardKpis see DashboardKpis
+ *  @property-read BoundResource $dashboardReports see DashboardReports
+ *  @property-read BoundResource $dashboardSections see DashboardSections
+ *  @property-read BoundResource $dashboards see Dashboards
  *  @property-read BoundResource $discountProfiles see DiscountProfiles
  *  @property-read BoundResource $ecommerceSettings see EcommerceSettings
  *  @property-read BoundResource $email see Email
+ *  @property-read BoundResource $giftCards see GiftCards
  *  @property-read BoundResource $inventoryLocations see InventoryLocations
  *  @property-read BoundResource $orderCustomFields see OrderCustomFields
  *  @property-read BoundResource $orderFlags see OrderFlags
+ *  @property-read BoundResource $orderPreviews see OrderPreviews
  *  @property-read BoundResource $orders see Orders
  *  @property-read BoundResource $pages see Pages
  *  @property-read BoundResource $paymentGateways see PaymentGateways
@@ -57,6 +64,9 @@ use WebCommander\Redaction;
  *  @property-read BoundResource $seoConfiguration see SeoConfiguration
  *  @property-read BoundResource $shippingClasses see ShippingClasses
  *  @property-read BoundResource $shippingMethods see ShippingMethods
+ *  @property-read BoundResource $shippingProfiles see ShippingProfiles
+ *  @property-read BoundResource $shippingRates see ShippingRates
+ *  @property-read BoundResource $shippingRules see ShippingRules
  *  @property-read BoundResource $shippingSettings see ShippingSettings
  *  @property-read BoundResource $shoppingCart see ShoppingCart
  *  @property-read BoundResource $siteSettings see SiteSettings

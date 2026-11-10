@@ -6,12 +6,13 @@ namespace WebCommander\Resources\Settings\ShippingSettings\ShippingSettingsDto;
 
 use WebCommander\Client\Dto;
 
-/** The area's own `group_meta` entry: two fields and no `href`, since there are no sections. */
+/** One `group_meta` entry: what the area is, whether it can be written, and its path. */
 final class AreaMeta extends Dto
 {
     public function __construct(
         public readonly ?string $kind = null,
         public readonly ?bool $writable = null,
+        public readonly ?string $href = null,
     ) {
     }
 }

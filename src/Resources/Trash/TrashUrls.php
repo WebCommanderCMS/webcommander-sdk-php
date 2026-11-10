@@ -10,6 +10,7 @@ final class TrashUrls
     public const TRASH_TYPES = '/api/{api_version}/admin/trash/types';
     public const TRASH_ITEM = '/api/{api_version}/admin/trash/{trash_type}/{trash_item_id}';
     public const TRASH_ITEM_RESTORE = '/api/{api_version}/admin/trash/{trash_type}/{trash_item_id}/restore';
+    public const TRASH_ITEM_EXTERNAL_LINKS = '/api/{api_version}/admin/trash/{trash_type}/{trash_item_id}/external_links';
     public const TRASH_BULK_RESTORE = '/api/{api_version}/admin/trash/bulk-restore';
     public const TRASH_BULK_DELETE = '/api/{api_version}/admin/trash/bulk-delete';
 }

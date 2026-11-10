@@ -57,11 +57,5 @@
         "process-timeout": 0,
         "sort-packages": true
     },
-    "scripts": {
-        "test": "phpunit"
-    },
-    "minimum-stability": "stable",
-    "scripts-descriptions": {
-        "test": "Run the live PHPUnit suite against the configured store."
-    }
+    "minimum-stability": "stable"
 }

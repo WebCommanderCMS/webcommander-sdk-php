@@ -7,7 +7,9 @@ namespace WebCommander\Resources\Settings\AnimationEffects;
 use WebCommander\Client\ApiResponse;
 use WebCommander\Client\Dto;
 use WebCommander\Client\WebCommanderClient;
+use WebCommander\Errors\SdkUsageError;
 use WebCommander\Resources\Settings\AnimationEffects\AnimationEffectsDto\AnimationEffects as AnimationEffectsBody;
+use WebCommander\Resources\Settings\AnimationEffects\AnimationEffectsDto\CustomLoaderSection;
 
 /** Animation effects endpoints, under `/api/{api_version}/admin/settings/animation_effects`: a
  *  facade over five sections, with no `PUT`. */
@@ -49,5 +51,28 @@ final class AnimationEffects
     public static function patchAnimationEffectsSection(WebCommanderClient $client, string $section, array|string|Dto $payload, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendPatchRequest(AnimationEffectsUrls::ANIMATION_EFFECTS_SECTION, pathParams: ['section' => $section], jsonBody: $payload, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: AnimationEffectsBody::class);
+    }
+
+    /** Upload the custom preloader image - `POST /admin/settings/animation_effects/custom_loader`, `201`,
+     *  and the loader reads `enabled: true`. The part is `file` (svg, png, jpg, jpeg or gif).
+     *  @param mixed $files one part named exactly "file", as [filename, contents, contentType] */
+    public static function uploadAnimationEffectsCustomLoader(WebCommanderClient $client, mixed $files, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    {
+        self::requireFiles($files);
+        return $client->sendPostRequest(AnimationEffectsUrls::ANIMATION_EFFECTS_CUSTOM_LOADER, files: $files, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: CustomLoaderSection::class);
+    }
+
+    /** Remove the custom preloader image - `DELETE /admin/settings/animation_effects/custom_loader`,
+     *  `204`, also when there is none. */
+    public static function deleteAnimationEffectsCustomLoader(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    {
+        return $client->sendDeleteRequest(AnimationEffectsUrls::ANIMATION_EFFECTS_CUSTOM_LOADER, raiseOnError: $raiseOnError, responseFormat: $responseFormat);
+    }
+
+    private static function requireFiles(mixed $files): void
+    {
+        if (!is_array($files) || $files === []) {
+            throw new SdkUsageError("files: pass ['file' => [filename, contents, contentType]]");
+        }
     }
 }
