@@ -66,6 +66,26 @@ $total = WebCommanderClient::withClient(new SdkConfig($auth), function (WebComma
 `withClient()` closes the client when the callback returns or throws. If you build a client
 with `new WebCommanderClient($config)`, call `$client->closeClient()` when you are done.
 
+### Hykmah sign-in
+
+A store whose API client was issued through Hykmah gets its token from Hykmah instead of from
+the store. Pass the Hykmah address as `authBaseUrl`; `redirectUri` and `authString` are not
+needed:
+
+```php
+$auth = new AuthConfig(
+    baseUrl: getenv('WC_BASE_URL'),
+    clientId: getenv('WC_CLIENT_ID'),
+    clientSecret: getenv('WC_CLIENT_SECRET'),
+    clientName: 'default',
+    grantType: 'client_credentials',
+    authBaseUrl: getenv('WC_AUTH_BASE_URL'),
+);
+```
+
+Only the token request goes to `authBaseUrl`. Every API call still goes to `baseUrl`. Leave
+`authBaseUrl` unset to get the token from the store with `redirectUri` and `authString`.
+
 ## Configuration
 
 `AuthConfig` holds credentials and `SdkConfig` holds behaviour. Every `SdkConfig` setting has a

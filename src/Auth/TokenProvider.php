@@ -15,9 +15,12 @@ use WebCommander\Redaction;
 final class TokenProvider
 {
     private const TOKEN_PATH_TEMPLATE = '/api/{api_version}/oauth2/token';
+    /** The token path on the Hykmah origin set as authBaseUrl. */
+    public const HYKMAH_TOKEN_PATH = '/api/v1/oauth/token';
     private const REFRESH_GRANT_TYPE = 'refresh_token';
 
     private readonly string $tokenPath;
+    private readonly bool $usesHykmah;
 
     public function __construct(
         private readonly SdkConfig $config,
@@ -26,12 +29,16 @@ final class TokenProvider
         ?string $tokenPath = null,
         private readonly ?LoggerInterface $logger = null,
     ) {
-        $this->tokenPath = $tokenPath ?? str_replace('{api_version}', $config->apiVersion, self::TOKEN_PATH_TEMPLATE);
+        $this->usesHykmah = $config->authBaseUrl() !== null;
+        $this->tokenPath = $tokenPath ?? ($this->usesHykmah
+            ? self::HYKMAH_TOKEN_PATH
+            : str_replace('{api_version}', $config->apiVersion, self::TOKEN_PATH_TEMPLATE));
     }
 
+    /** The Hykmah origin when authBaseUrl is set, otherwise the store's base URL, joined with the token path. */
     public function tokenUrl(): string
     {
-        return $this->config->baseUrl() . $this->tokenPath;
+        return ($this->config->authBaseUrl() ?? $this->config->baseUrl()) . $this->tokenPath;
     }
 
     public function getAccessToken(): string
@@ -89,18 +96,14 @@ final class TokenProvider
 
     private function requestTokenWithCredentials(): TokenRecord
     {
-        $response = $this->transport->sendHttpRequest(
-            'POST',
-            $this->tokenUrl(),
-            jsonBody: $this->credentialsPayload(),
-            headers: $this->tokenHeaders(),
-            endpointTemplate: self::TOKEN_PATH_TEMPLATE,
-        );
+        $response = $this->sendTokenRequest(['grant_type' => $this->config->grantType()]
+            + ($this->usesHykmah ? [] : ['auth_string' => $this->config->authString()]));
         if (!$response->succeeded()) {
             $messages = $response->getErrorMessages();
             throw new SdkAuthError(
                 "the token request was answered {$response->statusCode}; the endpoint's own "
-                . 'wording is on getErrorMessages() (' . count($messages) . ' reported)',
+                . 'wording is on getErrorMessages() (' . count($messages) . ' reported)'
+                . ($this->usesHykmah ? '; check clientId, clientSecret, grantType and authBaseUrl' : ''),
                 statusCode: $response->statusCode,
                 errorType: $response->errorType,
                 // A token-endpoint body can carry a token even on a rejection.
@@ -116,18 +119,11 @@ final class TokenProvider
 
     private function requestTokenWithRefreshGrant(#[\SensitiveParameter] string $refreshToken): ?TokenRecord
     {
-        $payload = [
-            'grant_type' => self::REFRESH_GRANT_TYPE,
-            'refresh_token' => $refreshToken,
-        ] + $this->clientFields();
         try {
-            $response = $this->transport->sendHttpRequest(
-                'POST',
-                $this->tokenUrl(),
-                jsonBody: $payload,
-                headers: $this->tokenHeaders(),
-                endpointTemplate: self::TOKEN_PATH_TEMPLATE,
-            );
+            $response = $this->sendTokenRequest([
+                'grant_type' => self::REFRESH_GRANT_TYPE,
+                'refresh_token' => $refreshToken,
+            ]);
         } catch (SdkError) {
             return null;
         }
@@ -141,30 +137,36 @@ final class TokenProvider
         }
     }
 
-    /** @return array<string,string> */
-    private function credentialsPayload(): array
+    /** POST one grant: a form to Hykmah, which refuses JSON, or JSON with the redirect URI to the store.
+     *  @param array<string,string> $grant */
+    private function sendTokenRequest(#[\SensitiveParameter] array $grant): ApiResponse
     {
-        return [
-            'grant_type' => $this->config->grantType(),
-            'auth_string' => $this->config->authString(),
-        ] + $this->clientFields();
-    }
-
-    /** @return array<string,string> */
-    private function clientFields(): array
-    {
-        return [
-            'redirect_uri' => $this->config->redirectUri(),
+        $client = [
             'client_id' => $this->config->clientId(),
             'client_secret' => $this->config->clientSecret(),
         ];
+        if ($this->usesHykmah) {
+            return $this->transport->sendHttpRequest(
+                'POST',
+                $this->tokenUrl(),
+                formData: $grant + $client,
+                headers: $this->tokenHeaders(),
+                endpointTemplate: self::HYKMAH_TOKEN_PATH,
+            );
+        }
+        return $this->transport->sendHttpRequest(
+            'POST',
+            $this->tokenUrl(),
+            jsonBody: $grant + ['redirect_uri' => $this->config->redirectUri()] + $client,
+            headers: $this->tokenHeaders() + ['Content-Type' => 'application/json'],
+            endpointTemplate: self::TOKEN_PATH_TEMPLATE,
+        );
     }
 
     /** @return array<string,string> */
     private function tokenHeaders(): array
     {
         return [
-            'Content-Type' => 'application/json',
             'Accept' => 'application/json',
             'User-Agent' => $this->config->userAgent,
         ];

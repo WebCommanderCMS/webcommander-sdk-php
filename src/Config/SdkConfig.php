@@ -290,6 +290,11 @@ final class SdkConfig
         return $this->auth->authString;
     }
 
+    public function authBaseUrl(): ?string
+    {
+        return $this->auth->authBaseUrl;
+    }
+
     public function clientName(): string
     {
         return $this->auth->clientName;
@@ -348,7 +353,7 @@ final class SdkConfig
         self::rejectUnknownConfigFields($settings);
         if ($suppliedAuth === null) {
             // Else a short mapping raises ArgumentCountError naming a positional parameter.
-            $missing = array_diff(AuthConfig::REQUIRED_FIELDS, array_keys($authValues));
+            $missing = array_diff(AuthConfig::requiredFieldsFor($authValues['authBaseUrl'] ?? null), array_keys($authValues));
             if ($missing !== []) {
                 throw new SdkConfigError('credentials: missing required field(s): ' . implode(', ', $missing));
             }
@@ -440,7 +445,7 @@ final class SdkConfig
                 // An unreadable install record falls back to the source version below.
             }
         }
-        return '4.0.1';
+        return '4.0.2';
     }
 
     public function __toString(): string

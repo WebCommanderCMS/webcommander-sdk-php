@@ -15,9 +15,10 @@ final class TokenCache
         string $clientSecret = '',
         string $authString = '',
         string $grantType = '',
+        string $authBaseUrl = '',
     ): string {
         $material = '';
-        foreach (['v3', $baseUrl, $clientId, $clientSecret, $authString, $grantType] as $value) {
+        foreach (['v4', $baseUrl, $clientId, $clientSecret, $authString, $grantType, $authBaseUrl] as $value) {
             $material .= mb_strlen($value, 'UTF-8') . ':' . $value;
         }
         return substr(hash('sha256', $material), 0, 16);

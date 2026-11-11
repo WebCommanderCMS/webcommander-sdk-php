@@ -318,6 +318,7 @@ final class WebCommanderClient
                     $config->clientSecret(),
                     $config->authString(),
                     $config->grantType(),
+                    $config->authBaseUrl() ?? '',
                 ),
                 $config->maxTokenCacheBytes,
             );

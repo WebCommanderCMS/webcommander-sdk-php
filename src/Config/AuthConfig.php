@@ -16,9 +16,11 @@ final class AuthConfig
 
     public readonly string $baseUrl;
     public readonly ?string $tokenCachePath;
+    /** The Hykmah origin that issues the token; null asks the store at baseUrl. */
+    public readonly ?string $authBaseUrl;
 
     /** @var list<string> */
-    public const FIELDS = ['baseUrl', 'clientId', 'clientSecret', 'redirectUri', 'authString', 'clientName', 'grantType', 'tokenCachePath'];
+    public const FIELDS = ['baseUrl', 'clientId', 'clientSecret', 'redirectUri', 'authString', 'clientName', 'grantType', 'tokenCachePath', 'authBaseUrl'];
 
     /** @var list<string> */
     public const REQUIRED_FIELDS = [
@@ -31,23 +33,48 @@ final class AuthConfig
         'grantType',
     ];
 
+    /** @var list<string> Required when authBaseUrl is set: Hykmah issues the token from the client alone. */
+    public const HYKMAH_REQUIRED_FIELDS = [
+        'baseUrl',
+        'clientId',
+        'clientSecret',
+        'clientName',
+        'grantType',
+    ];
+
     public function __construct(
         string $baseUrl,
         public readonly string $clientId,
         #[\SensitiveParameter] public readonly string $clientSecret,
-        public readonly string $redirectUri,
-        #[\SensitiveParameter] public readonly string $authString,
-        public readonly string $clientName,
-        public readonly string $grantType,
+        public readonly string $redirectUri = '',
+        #[\SensitiveParameter] public readonly string $authString = '',
+        public readonly string $clientName = '',
+        public readonly string $grantType = '',
         ?string $tokenCachePath = self::USE_DEFAULT_TOKEN_CACHE,
+        ?string $authBaseUrl = null,
     ) {
         $this->baseUrl = rtrim(trim($baseUrl), '/');
+        $this->authBaseUrl = $authBaseUrl === null ? null : (rtrim(trim($authBaseUrl), '/') ?: null);
 
         $this->validate($tokenCachePath);
 
         $this->tokenCachePath = $tokenCachePath === self::USE_DEFAULT_TOKEN_CACHE
             ? TokenCache::defaultPath()
             : $tokenCachePath;
+    }
+
+    /** Whether the token comes from Hykmah rather than from the store itself. */
+    public function usesHykmah(): bool
+    {
+        return $this->authBaseUrl !== null;
+    }
+
+    /** @return list<string> */
+    public static function requiredFieldsFor(?string $authBaseUrl): array
+    {
+        return $authBaseUrl !== null && rtrim(trim($authBaseUrl), '/') !== ''
+            ? self::HYKMAH_REQUIRED_FIELDS
+            : self::REQUIRED_FIELDS;
     }
 
     /** Derive a new set of credentials from this one.
@@ -67,6 +94,7 @@ final class AuthConfig
             clientName: $changes['clientName'] ?? $this->clientName,
             grantType: $changes['grantType'] ?? $this->grantType,
             tokenCachePath: array_key_exists('tokenCachePath', $changes) ? $changes['tokenCachePath'] : $this->tokenCachePath,
+            authBaseUrl: array_key_exists('authBaseUrl', $changes) ? $changes['authBaseUrl'] : $this->authBaseUrl,
         );
     }
 
@@ -75,7 +103,7 @@ final class AuthConfig
         $problems = [];
 
         $missing = [];
-        foreach (self::REQUIRED_FIELDS as $name) {
+        foreach (self::requiredFieldsFor($this->authBaseUrl) as $name) {
             if (trim($this->$name) === '') {
                 $missing[] = $name;
             }
@@ -86,6 +114,12 @@ final class AuthConfig
 
         if ($this->baseUrl !== '') {
             foreach ($this->problemsWithBaseUrl($this->baseUrl) as $problem) {
+                $problems[] = $problem;
+            }
+        }
+
+        if ($this->authBaseUrl !== null) {
+            foreach ($this->problemsWithBaseUrl($this->authBaseUrl, 'authBaseUrl') as $problem) {
                 $problems[] = $problem;
             }
         }
@@ -108,30 +142,30 @@ final class AuthConfig
     }
 
     /** @return list<string> */
-    private function problemsWithBaseUrl(string $baseUrl): array
+    private function problemsWithBaseUrl(string $baseUrl, string $name = 'baseUrl'): array
     {
         $parts = parse_url($baseUrl);
         if ($parts === false) {
-            return ['baseUrl: is not a URL'];
+            return ["{$name}: is not a URL"];
         }
         $scheme = $parts['scheme'] ?? '';
         if ($scheme !== 'http' && $scheme !== 'https') {
-            return ['baseUrl: must start with http:// or https://, got '
+            return ["{$name}: must start with http:// or https://, got "
                 . ($scheme === '' ? 'no scheme' : "scheme '{$scheme}'")];
         }
         if (!isset($parts['host'])) {
-            return ['baseUrl: must include a host, and no host could be read from it'];
+            return ["{$name}: must include a host, and no host could be read from it"];
         }
         $problems = [];
         if (isset($parts['user']) || isset($parts['pass'])) {
-            $problems[] = "baseUrl: host {$parts['host']} carries embedded credentials, which would "
+            $problems[] = "{$name}: host {$parts['host']} carries embedded credentials, which would "
                 . 'replace the bearer token; strip the userinfo';
         }
         if (isset($parts['query']) || isset($parts['fragment'])) {
             $carries = isset($parts['query'])
                 ? (isset($parts['fragment']) ? 'a query string and a fragment' : 'a query string')
                 : 'a fragment';
-            $problems[] = 'baseUrl: must be the instance origin only, and this one carries '
+            $problems[] = "{$name}: must be the origin only, and this one carries "
                 . $carries . ' - pass scheme://host[:port] and nothing after it';
         }
         return $problems;
