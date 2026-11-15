@@ -21,12 +21,6 @@ final class TaxZones
         return $client->sendGetRequest(TaxZonesUrls::TAX_ZONES, queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TaxZonePage::class);
     }
 
-    /** Ask whether the collection answers - `HEAD /admin/tax_zones`; `200` with no body. */
-    public static function headTaxZones(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', TaxZonesUrls::TAX_ZONES, raiseOnError: $raiseOnError, responseFormat: $responseFormat);
-    }
-
     /** Create a zone - `POST /admin/tax_zones`, `201`, wrapped in `tax_zone`. `countries` and `states`
      *  take `{"id": n}` records; `radius` and `start_location` are read only with `use_radius: true`.
      *  @param array<string,mixed>|string|Dto $payload */
@@ -40,12 +34,6 @@ final class TaxZones
     public static function getTaxZone(WebCommanderClient $client, int|string $taxZoneId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendGetRequest(TaxZonesUrls::TAX_ZONE, pathParams: ['tax_zone_id' => $taxZoneId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TaxZone::class);
-    }
-
-    /** Ask whether a zone's path answers - `HEAD /admin/tax_zones/{tax_zone_id}`. */
-    public static function headTaxZone(WebCommanderClient $client, int|string $taxZoneId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', TaxZonesUrls::TAX_ZONE, pathParams: ['tax_zone_id' => $taxZoneId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
     }
 
     /** Replace one zone - `PUT /admin/tax_zones/{tax_zone_id}`, wrapped, `name` required. Lists left

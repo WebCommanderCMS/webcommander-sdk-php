@@ -21,12 +21,6 @@ final class TaxRules
         return $client->sendGetRequest(TaxRulesUrls::TAX_RULES, queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TaxRulePage::class);
     }
 
-    /** Ask whether the collection answers - `HEAD /admin/tax_rules`; `200` with no body. */
-    public static function headTaxRules(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', TaxRulesUrls::TAX_RULES, raiseOnError: $raiseOnError, responseFormat: $responseFormat);
-    }
-
     /** Create a rule - `POST /admin/tax_rules`, `201`, wrapped in `tax_rule`; `name` is required and
      *  `description` is the only other field read.
      *  @param array<string,mixed>|string|Dto $payload */
@@ -40,12 +34,6 @@ final class TaxRules
     public static function getTaxRule(WebCommanderClient $client, int|string $taxRuleId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendGetRequest(TaxRulesUrls::TAX_RULE, pathParams: ['tax_rule_id' => $taxRuleId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TaxRule::class);
-    }
-
-    /** Ask whether a rule's path answers - `HEAD /admin/tax_rules/{tax_rule_id}`. */
-    public static function headTaxRule(WebCommanderClient $client, int|string $taxRuleId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', TaxRulesUrls::TAX_RULE, pathParams: ['tax_rule_id' => $taxRuleId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
     }
 
     /** Update one rule - `PUT /admin/tax_rules/{tax_rule_id}`, wrapped, a merge; only `name` and

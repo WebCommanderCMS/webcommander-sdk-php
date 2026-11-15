@@ -6,7 +6,7 @@ namespace WebCommander\Resources\Blogs\BlogsDto;
 
 use WebCommander\Client\Dto;
 
-/** The audience a write names: customer `internal_id` values and customer group ids. */
+/** The audience a write names: customer `customer_id` values and customer group ids. */
 final class BlogAudienceInput extends Dto
 {
     /** @param list<int|null>|null $customers

@@ -6,7 +6,7 @@ namespace WebCommander\Resources\GiftCards\GiftCardsDto;
 
 use WebCommander\Client\Dto;
 
-/** One gift card. `$code` is what an order preview's `gift-card` call takes; a card can be applied only while `$isActive` and `$isPaid`, with a `$balance` above zero, before its `$availableTo` date and with `$email` equal to the previewed customer's email. */
+/** One gift card. `$code` is what a checkout's `gift_card` call takes; a card can be applied only while `$isActive` and `$isPaid`, with a `$balance` above zero, before its `$availableTo` date and with `$email` equal to the cart customer's email. */
 final class GiftCard extends Dto
 {
     public function __construct(

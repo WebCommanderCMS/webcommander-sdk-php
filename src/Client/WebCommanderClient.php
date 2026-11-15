@@ -24,6 +24,7 @@ use WebCommander\Http\UrlBuilder;
 use WebCommander\Redaction;
 
 /** The client: config in, ApiResponse out. Each registered resource is a property.
+ *  @property-read BoundResource $adminCarts see AdminCarts
  *  @property-read BoundResource $adminCustomers see AdminCustomers
  *  @property-read BoundResource $aliases see Aliases
  *  @property-read BoundResource $animationEffects see AnimationEffects
@@ -51,7 +52,6 @@ use WebCommander\Redaction;
  *  @property-read BoundResource $inventoryLocations see InventoryLocations
  *  @property-read BoundResource $orderCustomFields see OrderCustomFields
  *  @property-read BoundResource $orderFlags see OrderFlags
- *  @property-read BoundResource $orderPreviews see OrderPreviews
  *  @property-read BoundResource $orders see Orders
  *  @property-read BoundResource $pages see Pages
  *  @property-read BoundResource $paymentGateways see PaymentGateways

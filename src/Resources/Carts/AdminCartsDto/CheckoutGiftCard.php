@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WebCommander\Resources\OrderPreviews\OrderPreviewsDto;
+namespace WebCommander\Resources\Carts\AdminCartsDto;
 
 use WebCommander\Client\Dto;
 
-/** The gift card on the preview: `$appliedAmount` is the lesser of its balance and the grand total. `$remainingBalance` came back null. */
-final class PreviewGiftCard extends Dto
+/** The gift card applied: `$appliedAmount` is the lesser of its balance and the grand total. */
+final class CheckoutGiftCard extends Dto
 {
     public function __construct(
         public readonly ?string $code = null,

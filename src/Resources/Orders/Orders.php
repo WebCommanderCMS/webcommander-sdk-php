@@ -29,7 +29,7 @@ use WebCommander\Resources\Orders\OrdersDto\ShipmentStatus;
 final class Orders
 {
     /** List orders - `GET /admin/orders`, newest first; cancelled only under `order_status`.
-     *  `limit` caps at 20, `customerId` takes an `internal_id`, an unknown name is `400`.
+     *  `limit` caps at 20, `customerId` takes a `customer_id`, an unknown name is `400`.
      *  @param array<string,mixed>|null $queryParams */
     public static function listOrders(WebCommanderClient $client, ?array $queryParams = null, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
@@ -123,11 +123,10 @@ final class Orders
         return $client->sendPostRequest(OrdersUrls::ORDER_COMMENTS, pathParams: ['order_id' => $orderId], jsonBody: $payload, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: OrderComment::class);
     }
 
-    /** An order's custom field values - `GET /admin/orders/{order_internal_id}/custom_fields`. Pass
-     *  `internal_id`: an `order_id` there reads the order whose `internal_id` it is. */
-    public static function getOrderCustomFields(WebCommanderClient $client, int|string $orderInternalId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    /** An order's custom field values - `GET /admin/orders/{order_id}/custom_fields`. */
+    public static function getOrderCustomFields(WebCommanderClient $client, int|string $orderId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
-        return $client->sendGetRequest(OrdersUrls::ORDER_CUSTOM_FIELDS, pathParams: ['order_internal_id' => $orderInternalId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: OrderCustomFields::class);
+        return $client->sendGetRequest(OrdersUrls::ORDER_CUSTOM_FIELDS, pathParams: ['order_id' => $orderId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: OrderCustomFields::class);
     }
 
     /** Record a payment - `POST /admin/orders/{order_id}/payments`; `201`. The `payment` wrapper is
@@ -163,11 +162,10 @@ final class Orders
         return $client->sendPostRequest(OrdersUrls::PAYMENT_REFUNDS, pathParams: ['payment_id' => $paymentId], jsonBody: $payload, headers: [OrdersUrls::IDEMPOTENCY_KEY_HEADER => $idempotencyKey], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: PaymentRefund::class);
     }
 
-    /** Email the invoice - `POST /admin/orders/{order_internal_id}/send-invoice`; no body. Pass
-     *  `internal_id`: an `order_id` there names the order holding it as its `internal_id`. */
-    public static function sendOrderInvoice(WebCommanderClient $client, int|string $orderInternalId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
+    /** Email the invoice - `POST /admin/orders/{order_id}/send-invoice`; no body. */
+    public static function sendOrderInvoice(WebCommanderClient $client, int|string $orderId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
-        return $client->sendPostRequest(OrdersUrls::ORDER_SEND_INVOICE, pathParams: ['order_internal_id' => $orderInternalId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: InvoiceDispatch::class);
+        return $client->sendPostRequest(OrdersUrls::ORDER_SEND_INVOICE, pathParams: ['order_id' => $orderId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: InvoiceDispatch::class);
     }
 
     /** How far an order has shipped - `GET /admin/orders/{order_id}/shipment-status`. */

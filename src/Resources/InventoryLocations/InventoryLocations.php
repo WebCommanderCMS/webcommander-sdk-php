@@ -23,12 +23,6 @@ final class InventoryLocations
         return $client->sendGetRequest(InventoryLocationsUrls::INVENTORY_LOCATIONS, queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: InventoryLocationPage::class);
     }
 
-    /** Ask whether the collection answers - `HEAD /admin/inventory_locations`; `200` with no body. */
-    public static function headInventoryLocations(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', InventoryLocationsUrls::INVENTORY_LOCATIONS, raiseOnError: $raiseOnError, responseFormat: $responseFormat);
-    }
-
     /** Create a location - `POST /admin/inventory_locations`, `201`. The body is a bare record, not
      *  wrapped; `default: true` takes the flag off the row that held it.
      *  @param array<string,mixed>|string|Dto $payload */
@@ -42,12 +36,6 @@ final class InventoryLocations
     public static function getInventoryLocation(WebCommanderClient $client, int|string $inventoryLocationId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendGetRequest(InventoryLocationsUrls::INVENTORY_LOCATION, pathParams: ['inventory_location_id' => $inventoryLocationId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: InventoryLocation::class);
-    }
-
-    /** Ask whether a location's path answers - `HEAD /admin/inventory_locations/{inventory_location_id}`. */
-    public static function headInventoryLocation(WebCommanderClient $client, int|string $inventoryLocationId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', InventoryLocationsUrls::INVENTORY_LOCATION, pathParams: ['inventory_location_id' => $inventoryLocationId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
     }
 
     /** Replace one location - `PUT /admin/inventory_locations/{inventory_location_id}`, bare record,

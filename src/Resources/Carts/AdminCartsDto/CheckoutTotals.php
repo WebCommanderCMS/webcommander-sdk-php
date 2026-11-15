@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WebCommander\Resources\OrderPreviews\OrderPreviewsDto;
+namespace WebCommander\Resources\Carts\AdminCartsDto;
 
 use WebCommander\Client\Dto;
 
-/** The money. `$grandTotal` is `$subTotal` less `$totalDiscount` plus the tax, shipping (and its tax), handling and surcharge; a gift card lowers `$due`, not `$grandTotal`. */
-final class PreviewTotals extends Dto
+/** The money. A gift card lowers `$due`, not `$grandTotal`. */
+final class CheckoutTotals extends Dto
 {
     public function __construct(
         public readonly ?float $subTotal = null,

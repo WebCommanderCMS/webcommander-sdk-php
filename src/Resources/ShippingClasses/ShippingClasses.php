@@ -23,12 +23,6 @@ final class ShippingClasses
         return $client->sendGetRequest(ShippingClassesUrls::SHIPPING_CLASSES, queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: ShippingClassPage::class);
     }
 
-    /** Ask whether the collection answers - `HEAD /admin/shipping_classes`; `200` with no body. */
-    public static function headShippingClasses(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', ShippingClassesUrls::SHIPPING_CLASSES, raiseOnError: $raiseOnError, responseFormat: $responseFormat);
-    }
-
     /** How many classes the store holds - `GET /admin/shipping_classes/count`, answering
      *  `{"shipping_classes": {"count": N}}`; no query parameter narrows it.
      *  @param array<string,mixed>|null $queryParams */
@@ -51,12 +45,6 @@ final class ShippingClasses
     public static function getShippingClass(WebCommanderClient $client, int|string $shippingClassId, ?array $queryParams = null, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendGetRequest(ShippingClassesUrls::SHIPPING_CLASS, pathParams: ['shipping_class_id' => $shippingClassId], queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: ShippingClass::class);
-    }
-
-    /** Ask whether a class's path answers - `HEAD /admin/shipping_classes/{shipping_class_id}`. */
-    public static function headShippingClass(WebCommanderClient $client, int|string $shippingClassId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', ShippingClassesUrls::SHIPPING_CLASS, pathParams: ['shipping_class_id' => $shippingClassId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
     }
 
     /** Replace one class - `PUT /admin/shipping_classes/{shipping_class_id}`, wrapper and `name`

@@ -21,12 +21,6 @@ final class TaxCodes
         return $client->sendGetRequest(TaxCodesUrls::TAX_CODES, queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TaxCodePage::class);
     }
 
-    /** Ask whether the collection answers - `HEAD /admin/tax_codes`; `200` with no body. */
-    public static function headTaxCodes(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', TaxCodesUrls::TAX_CODES, raiseOnError: $raiseOnError, responseFormat: $responseFormat);
-    }
-
     /** Create a code - `POST /admin/tax_codes`, `201`, wrapped in `tax_code`; `name` is required and
      *  `default` is not writable.
      *  @param array<string,mixed>|string|Dto $payload */
@@ -40,12 +34,6 @@ final class TaxCodes
     public static function getTaxCode(WebCommanderClient $client, int|string $taxCodeId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendGetRequest(TaxCodesUrls::TAX_CODE, pathParams: ['tax_code_id' => $taxCodeId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TaxCode::class);
-    }
-
-    /** Ask whether a code's path answers - `HEAD /admin/tax_codes/{tax_code_id}`. */
-    public static function headTaxCode(WebCommanderClient $client, int|string $taxCodeId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', TaxCodesUrls::TAX_CODE, pathParams: ['tax_code_id' => $taxCodeId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
     }
 
     /** Update one code - `PUT /admin/tax_codes/{tax_code_id}`, wrapped in `tax_code`. Omitted fields keep

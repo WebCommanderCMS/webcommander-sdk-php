@@ -15,7 +15,7 @@ use WebCommander\Resources\Carts\CartsDto\CartSession;
 final class Carts
 {
     /** Add a product to the cart `session_id` names, creating it - `POST /carts`, `201`; re-adding
-     *  raises the line's quantity. `customer_id` is the customer's `internal_id`.
+     *  raises the line's quantity. `customer_id` is the customer's `customer_id`.
      *  @param array<string,mixed>|string|Dto $payload */
     public static function addCartItem(WebCommanderClient $client, array|string|Dto $payload, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
@@ -59,7 +59,7 @@ final class Carts
     }
 
     /** Turn the cart into an order - `POST /admin/orders/carts/{session_id}`, `201`, and the cart is
-     *  gone. `customer_id` is the customer's `customer_id`, not its `internal_id`. `$transactionNo` is
+     *  gone. `customer_id` is the customer's `customer_id`. `$transactionNo` is
      *  sent as `X-Transaction-No` and files the order under that number.
      *  @param array<string,mixed>|string|Dto $payload */
     public static function createOrderFromCart(WebCommanderClient $client, string $sessionId, array|string|Dto $payload, ?string $transactionNo = null, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse

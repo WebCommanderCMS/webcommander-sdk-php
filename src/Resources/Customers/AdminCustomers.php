@@ -22,8 +22,7 @@ final class AdminCustomers
         return $client->sendGetRequest(AdminCustomersUrls::ADMIN_CUSTOMERS, queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: Page::of(Customer::class));
     }
 
-    /** Retrieve one customer - `GET /admin/customers/{customer_id}`; the slot takes `customer_id`,
-     *  not the overlapping `internal_id`. */
+    /** Retrieve one customer - `GET /admin/customers/{customer_id}`. */
     public static function getCustomer(WebCommanderClient $client, int|string $customerId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendGetRequest(AdminCustomersUrls::ADMIN_CUSTOMER, pathParams: ['customer_id' => $customerId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: Customer::class);

@@ -9,6 +9,7 @@ use WebCommander\Errors\SdkUsageError;
 use WebCommander\Resources\Aliases\Aliases;
 use WebCommander\Resources\BlogCategories\BlogCategories;
 use WebCommander\Resources\Blogs\Blogs;
+use WebCommander\Resources\Carts\AdminCarts;
 use WebCommander\Resources\Carts\Carts;
 use WebCommander\Resources\Categories\Categories;
 use WebCommander\Resources\Cities\Cities;
@@ -28,7 +29,6 @@ use WebCommander\Resources\GiftCards\GiftCards;
 use WebCommander\Resources\InventoryLocations\InventoryLocations;
 use WebCommander\Resources\OrderCustomFields\OrderCustomFields;
 use WebCommander\Resources\OrderFlags\OrderFlags;
-use WebCommander\Resources\OrderPreviews\OrderPreviews;
 use WebCommander\Resources\Orders\Orders;
 use WebCommander\Resources\Pages\Pages;
 use WebCommander\Resources\PaymentGateways\PaymentGateways;
@@ -68,6 +68,7 @@ final class ResourceRegistry
 {
     /** @var array<string,class-string> */
     private static array $modules = [
+        'adminCarts' => AdminCarts::class,
         'adminCustomers' => AdminCustomers::class,
         'aliases' => Aliases::class,
         'animationEffects' => AnimationEffects::class,
@@ -95,7 +96,6 @@ final class ResourceRegistry
         'inventoryLocations' => InventoryLocations::class,
         'orderCustomFields' => OrderCustomFields::class,
         'orderFlags' => OrderFlags::class,
-        'orderPreviews' => OrderPreviews::class,
         'orders' => Orders::class,
         'pages' => Pages::class,
         'paymentGateways' => PaymentGateways::class,

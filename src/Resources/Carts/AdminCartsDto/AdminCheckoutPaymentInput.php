@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WebCommander\Resources\OrderPreviews\OrderPreviewsDto;
+namespace WebCommander\Resources\Carts\AdminCartsDto;
 
 use WebCommander\Client\Dto;
 
-/** The payment a confirm records. `$amount` above what is due is `422`, a missing `$paymentMethod` is `400`, and `$paymentStatus` `failed` leaves the order unpaid. */
-final class OrderPreviewPaymentInput extends Dto
+/** The payment a confirm records. `$amount` and `$paymentMethod` are required; an `$amount` above what is due is refused. */
+final class AdminCheckoutPaymentInput extends Dto
 {
     public function __construct(
         public readonly ?float $amount = null,

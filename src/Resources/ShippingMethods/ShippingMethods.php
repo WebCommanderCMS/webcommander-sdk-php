@@ -23,12 +23,6 @@ final class ShippingMethods
         return $client->sendGetRequest(ShippingMethodsUrls::SHIPPING_METHODS, queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: ShippingMethodPage::class);
     }
 
-    /** Ask whether the collection answers - `HEAD /admin/shipping_methods`; `200` with no body. */
-    public static function headShippingMethods(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', ShippingMethodsUrls::SHIPPING_METHODS, raiseOnError: $raiseOnError, responseFormat: $responseFormat);
-    }
-
     /** How many methods the store holds - `GET /admin/shipping_methods/count`, answering
      *  `{"shipping_methods": {"count": N}}`; no query parameter narrows it.
      *  @param array<string,mixed>|null $queryParams */
@@ -51,12 +45,6 @@ final class ShippingMethods
     public static function getShippingMethod(WebCommanderClient $client, int|string $shippingMethodId, ?array $queryParams = null, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendGetRequest(ShippingMethodsUrls::SHIPPING_METHOD, pathParams: ['shipping_method_id' => $shippingMethodId], queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: ShippingMethod::class);
-    }
-
-    /** Ask whether a method's path answers - `HEAD /admin/shipping_methods/{shipping_method_id}`. */
-    public static function headShippingMethod(WebCommanderClient $client, int|string $shippingMethodId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', ShippingMethodsUrls::SHIPPING_METHOD, pathParams: ['shipping_method_id' => $shippingMethodId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
     }
 
     /** Update one method - `PUT /admin/shipping_methods/{shipping_method_id}`; the wrapper and `name`

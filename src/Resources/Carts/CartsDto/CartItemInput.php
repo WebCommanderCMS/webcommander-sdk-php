@@ -6,7 +6,7 @@ namespace WebCommander\Resources\Carts\CartsDto;
 
 use WebCommander\Client\Dto;
 
-/** The add's body, no envelope; `$customerId` takes the customer's `internal_id`. */
+/** The add's body, no envelope; `$customerId` takes the customer's `customer_id`. */
 final class CartItemInput extends Dto
 {
     public function __construct(

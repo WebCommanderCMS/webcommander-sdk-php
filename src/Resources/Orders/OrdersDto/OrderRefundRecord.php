@@ -7,7 +7,7 @@ namespace WebCommander\Resources\Orders\OrdersDto;
 use WebCommander\Client\Dto;
 use WebCommander\Client\ListOf;
 
-/** One refund an order holds. `order_id` is the order's internal id. A payment refund fills
+/** One refund an order holds. A payment refund fills
  *  `record_only` to `lines`; an order refund leaves them `null` and `lines` empty.
  *  `gateway_charge_id`, `gateway_refund_id` and `failure_cause` were `null` on every refund read, so
  *  they are not typed. */

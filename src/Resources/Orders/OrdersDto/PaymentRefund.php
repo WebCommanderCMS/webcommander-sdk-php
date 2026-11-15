@@ -6,8 +6,7 @@ namespace WebCommander\Resources\Orders\OrdersDto;
 
 use WebCommander\Client\Dto;
 
-/** What a payment refund answers. `$orderId` holds the order's internal id and `$orderNo` its
- *  order id. */
+/** What a payment refund answers; `$orderNo` equals `$orderId`. */
 final class PaymentRefund extends Dto
 {
     public function __construct(
@@ -15,6 +14,7 @@ final class PaymentRefund extends Dto
         public readonly ?int $refundId = null,
         public readonly ?int $paymentId = null,
         public readonly ?int $orderId = null,
+        public readonly ?int $internalId = null,
         public readonly ?int $orderNo = null,
         public readonly ?string $currency = null,
         public readonly ?float $amount = null,

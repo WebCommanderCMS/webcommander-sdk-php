@@ -20,8 +20,8 @@ final class OrdersUrls
     public const ORDER_SHIPMENT = '/api/{api_version}/admin/orders/{order_id}/shipments/{shipment_id}';
     public const ORDER_UPDATE_STATUS = '/api/{api_version}/admin/orders/{order_id}/update-status';
 
-    public const ORDER_CUSTOM_FIELDS = '/api/{api_version}/admin/orders/{order_internal_id}/custom_fields';
-    public const ORDER_SEND_INVOICE = '/api/{api_version}/admin/orders/{order_internal_id}/send-invoice';
+    public const ORDER_CUSTOM_FIELDS = '/api/{api_version}/admin/orders/{order_id}/custom_fields';
+    public const ORDER_SEND_INVOICE = '/api/{api_version}/admin/orders/{order_id}/send-invoice';
 
     public const PAYMENT_REFUNDS = '/api/{api_version}/admin/payment/{payment_id}/refunds';
     public const ORDER_STATUS_ADD = '/api/{api_version}/admin/order/add-order-status';

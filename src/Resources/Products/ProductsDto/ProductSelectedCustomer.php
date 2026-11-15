@@ -6,8 +6,8 @@ namespace WebCommander\Resources\Products\ProductsDto;
 
 use WebCommander\Client\Dto;
 
-/** One customer an audience names: `id` is the customer's `customer_id`, `internal_id` its
- *  `internal_id`. */
+/** One customer an audience names: `id` is the customer's `customer_id`; `internal_id` is for
+ *  reference. */
 final class ProductSelectedCustomer extends Dto
 {
     public function __construct(

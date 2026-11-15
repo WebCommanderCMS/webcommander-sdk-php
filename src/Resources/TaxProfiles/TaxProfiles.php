@@ -22,12 +22,6 @@ final class TaxProfiles
         return $client->sendGetRequest(TaxProfilesUrls::TAX_PROFILES, queryParams: $queryParams, raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TaxProfilePage::class);
     }
 
-    /** Ask whether the collection answers - `HEAD /admin/tax_profiles`; `200` with no body. */
-    public static function headTaxProfiles(WebCommanderClient $client, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', TaxProfilesUrls::TAX_PROFILES, raiseOnError: $raiseOnError, responseFormat: $responseFormat);
-    }
-
     /** Create a profile - `POST /admin/tax_profiles`.
      *  @param array<string,mixed>|string|Dto $payload */
     public static function createTaxProfile(WebCommanderClient $client, array|string|Dto $payload, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
@@ -40,12 +34,6 @@ final class TaxProfiles
     public static function getTaxProfile(WebCommanderClient $client, int|string $taxProfileId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
     {
         return $client->sendGetRequest(TaxProfilesUrls::TAX_PROFILE, pathParams: ['tax_profile_id' => $taxProfileId], raiseOnError: $raiseOnError, responseFormat: $responseFormat, dtoType: TaxProfile::class);
-    }
-
-    /** Ask whether a profile's path answers - `HEAD /admin/tax_profiles/{tax_profile_id}`. */
-    public static function headTaxProfile(WebCommanderClient $client, int|string $taxProfileId, ?bool $raiseOnError = null, ?string $responseFormat = null): ApiResponse
-    {
-        return $client->sendApiRequest('HEAD', TaxProfilesUrls::TAX_PROFILE, pathParams: ['tax_profile_id' => $taxProfileId], raiseOnError: $raiseOnError, responseFormat: $responseFormat);
     }
 
     /** Update one profile - `PUT /admin/tax_profiles/{tax_profile_id}`, wrapped, a merge. `default: true`
