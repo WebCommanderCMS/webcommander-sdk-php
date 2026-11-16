@@ -13,6 +13,6 @@ final class CartsUrls
     /** The one cart path under `/admin`. */
     public const CART_ORDER = '/api/{api_version}/admin/orders/carts/{session_id}';
 
-    /** Files the order a cart becomes under this transaction number; it beats `transaction_no`. */
+    /** Files the order a cart becomes under this transaction number. */
     public const TRANSACTION_NO_HEADER = 'X-Transaction-No';
 }

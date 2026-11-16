@@ -24,6 +24,6 @@ final class ProductsUrls
     public const PRODUCT_MEDIA_ORDER = '/api/{api_version}/admin/products/{product_id}/media/order';
     public const PRODUCT_STOCK_LOCATION = '/api/{api_version}/admin/products/{product_id}/stock/locations/{inventory_location_id}';
 
-    /** Tags the write with a transaction number; it wins over a body `transaction_no` it disagrees with. */
+    /** Tags the write with a transaction number; a differing top-level `transaction_no` is `400 header_body_mismatch`; reviews and inventory check beside `product`. */
     public const TRANSACTION_NO_HEADER = 'X-Transaction-No';
 }

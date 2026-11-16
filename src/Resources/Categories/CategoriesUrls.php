@@ -23,6 +23,6 @@ final class CategoriesUrls
         'assign_products',
     ];
 
-    /** Files a new category under this transaction number; it beats `category.transaction_no`. */
+    /** Files a new category under this transaction number; a differing `category.transaction_no` is `400 header_body_mismatch`; beside `category` it is not compared. */
     public const TRANSACTION_NO_HEADER = 'X-Transaction-No';
 }
